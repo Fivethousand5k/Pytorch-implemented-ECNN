@@ -41,7 +41,7 @@ class FitNet_4(nn.Module):
             nn.Conv2d(in_channels=80, out_channels=80, kernel_size=3, stride=1, padding=1), nn.BatchNorm2d(80),
             nn.ReLU(inplace=True))
         self.c3_1 = nn.Sequential(
-            nn.Conv2d(in_channels=48, out_channels=80, kernel_size=3, stride=1, padding=1), nn.BatchNorm2d(80),
+            nn.Conv2d(in_channels=80, out_channels=80, kernel_size=3, stride=1, padding=1), nn.BatchNorm2d(80),
             nn.ReLU(inplace=True))
         self.c3_2 = nn.Sequential(
             nn.Conv2d(in_channels=80, out_channels=80, kernel_size=3, stride=1, padding=1), nn.BatchNorm2d(80),
@@ -58,7 +58,7 @@ class FitNet_4(nn.Module):
 
         self.maxpool = nn.MaxPool2d(kernel_size=2)
         self.dropout = nn.Dropout2d(p=0.5)
-        fc_infeatures = ((self.default_input_size / 2 / 2 / 2) ** 2) * 80
+        fc_infeatures = int(((self.default_input_size / 2 / 2 / 2) ** 2)) * 80
         self.FC = nn.Linear(in_features=fc_infeatures, out_features=out_channels)
 
     def forward(self, input):

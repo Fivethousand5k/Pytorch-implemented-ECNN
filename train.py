@@ -8,26 +8,27 @@ import torch.nn as nn
 from sklearn.metrics import cohen_kappa_score, classification_report
 from models import FitNet_4
 from torch import optim
-
+from eval import *
 
 def train(arg):
     ##########basic params############
     epochs = 2000
     expname="exp1"
+    learning_rate=0.0001
+    batch_size=64
     #########datasets##################
     transform = transforms.Compose(
         [transforms.ToTensor(),
          transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
     trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                             download=True, transform=transform)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=64,
                                               shuffle=True, num_workers=2)
     testset = torchvision.datasets.CIFAR10(root='./data', train=False,
                                            download=True, transform=transform)
-    testloader = torch.utils.data.DataLoader(testset, batch_size=4,
+    testloader = torch.utils.data.DataLoader(testset, batch_size=64,
                                              shuffle=False, num_workers=2)
-    pbar_train = tqdm(trainloader)
-    pbar_test = tqdm(testloader)
+
     ###################################
     classes = ('plane', 'car', 'bird', 'cat',
                'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -38,11 +39,12 @@ def train(arg):
     ############loss##################
     criterion = nn.CrossEntropyLoss()
     ############optimizer############
-    optimizer = optim.Adam()
+    optimizer = optim.Adam(model.parameters(),lr=learning_rate)
     for epoch in range(1,epochs+1):
         train_loss = 0
         train_acc = 0
         model.train()
+        pbar_train=tqdm(trainloader)
         for (image, label) in pbar_train:
             image = Variable(image).cuda()
             label = Variable(label).cuda()
@@ -59,7 +61,7 @@ def train(arg):
         print("Training{}:epoch{} finished! Total acc:{} Total loss:{}".format(expname, epoch,
                                                                                train_acc / len(trainset),
                                                                                train_loss / (len(trainset))))
-
-
+        #eval
+        evaluation(testloader,model,classes,epoch,criterion)
 if __name__ == '__main__':
     train(1)
