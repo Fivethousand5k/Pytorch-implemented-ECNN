@@ -6,7 +6,7 @@
         <remote-mappings server-id="python@sftp://Fivethousand@192.168.31.234:22/home/Fivethousand/anaconda3/envs/wuqian/bin/python3.8">
           <settings>
             <list>
-              <mapping local-root="$PROJECT_DIR$" remote-root="/home/Fivethousand/Projects/lab_projects" />
+              <mapping local-root="$PROJECT_DIR$" remote-root="/home/Fivethousand/Projects/lab_projects/Pytorch_implement_ECNN" />
             </list>
           </settings>
         </remote-mappings>

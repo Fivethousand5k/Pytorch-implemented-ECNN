@@ -6,7 +6,7 @@ from torch.autograd import Variable
 from tqdm import tqdm
 import torch.nn as nn
 from sklearn.metrics import cohen_kappa_score, classification_report
-from models import FitNet_4
+from models import FitNet_4,DS_FItNet_4
 from torch import optim
 from eval import *
 
@@ -34,6 +34,7 @@ def train(arg):
                'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
     ############model#################
     model = FitNet_4.FitNet_4(in_channels=3, out_channels=10)
+    #model=DS_FItNet_4.DS_FitNet_4(in_channels=3,out_channels=10)
     model = nn.DataParallel(model)
     model.cuda()
     ############loss##################
