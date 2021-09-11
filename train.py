@@ -33,8 +33,8 @@ def train(arg):
     classes = ('plane', 'car', 'bird', 'cat',
                'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
     ############model#################
-    model = FitNet_4.FitNet_4(in_channels=3, out_channels=10)
-    #model=DS_FItNet_4.DS_FitNet_4(in_channels=3,out_channels=10)
+    #model = FitNet_4.FitNet_4(in_channels=3, out_channels=10)
+    model=DS_FItNet_4.DS_FitNet_4(in_channels=3,out_channels=10)
     model = nn.DataParallel(model)
     model.cuda()
     ############loss##################

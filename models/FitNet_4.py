@@ -7,6 +7,7 @@ import numpy as np
 
 class FitNet_4(nn.Module):
     default_input_size = 32
+    final_maxpool_size = 8
 
     def __init__(self, in_channels=3, out_channels=10):
         super(FitNet_4, self).__init__()
@@ -57,9 +58,9 @@ class FitNet_4(nn.Module):
             nn.ReLU(inplace=True))
 
         self.maxpool = nn.MaxPool2d(kernel_size=2)
-        self.final_maxpool=nn.MaxPool2d(kernel_size=8)
+        self.final_maxpool = nn.MaxPool2d(kernel_size=self.final_maxpool_size)
         self.dropout = nn.Dropout2d(p=0.5)
-        fc_infeatures = int(((self.default_input_size / 2 / 2 / 8) ** 2)) * 128
+        fc_infeatures = int(((self.default_input_size / 2 / 2 / self.final_maxpool_size) ** 2)) * 128
         self.FC = nn.Linear(in_features=fc_infeatures, out_features=out_channels)
 
     def forward(self, input):
